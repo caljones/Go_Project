@@ -81,10 +81,10 @@ func dance() {
 		for range 5 {
 			scanner.Scan()
 			s := scanner.Text()
+			fmt.Println(s)
 			if string(s[len(s)-1]) == "#" {
 				goto end
 			}
-			fmt.Println(s)
 			counter++
 		}
 		time.Sleep(150 * time.Millisecond)

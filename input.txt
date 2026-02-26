@@ -17,7 +17,7 @@ while ()@^^^^^^^^@for c := range slice@@
 
 syntax...@@
 
-if( err ==@^^^^^^^^@ err == null {@@^^^^^^@nil {@@
+if( err ==@^^^^^^^^@ err == null {@@^^^^^^@nil {@
 
 I know how to parse JSON using Go, and make http requests!@
 If I wanted to get an absurdly long list of nature tours available in California,@
@@ -29,11 +29,10 @@ I've come to really like Go!@
 The simplicity of loops, conditional logic, errors, and variables
 makes writing code so much faster.
 
-&@@
+&@
 
 If you care to take a peak at main.go and input.txt, this program just runs a few
 functions I wrote to print out text as if I were typing it, run that animation, and 
 read from files.@@
 
-It was fun to make, and in the process, I got a certification in Go!
-
+I learned Go alongside my classes at State, and now I'm Go certified! (on Linkedin)
