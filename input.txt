@@ -1,0 +1,41 @@
+Hello Jacob!@
+This is a small program I made to show off what I've learned about GoLang so far.@
+I'm stubborn about learning a new language and so I used no AI to make it.@
+
+$@
+
+I learned how to panic!@@
+AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH@@
+
+I learned all the nitty...@
+
+_, _, _, _, _, _, _, err@@
+
+gritty...@
+
+while ()@^^^^^^^^@for c := range slice@@
+
+syntax...@@
+
+if( err ==@^^^^^^^^@ err == null {@@^^^^^^@nil {@
+
+I know how to parse JSON using GoLang, and make http requests!@
+If I wanted to get an absurdly long list of nature tours available in California,@
+I can make an API call!@@
+
+#@@@
+
+I've come to really like Go!@
+The simplicity of loops, conditional logic, errors, and variables
+makes writing code so much faster.@
+
+&@
+
+If you care to take a peak at main.go and input.txt, this program just runs a few
+functions I wrote to print out text as if I were typing it, run that animation, and 
+read from files.@@
+
+I studied GoLang online whenever I had a break in my classes at State, 
+and now I'm Go certified! (on Linkedin)@
+
+Hope you enjoyed this as much as I enjoyed writing it!@
