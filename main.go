@@ -78,11 +78,13 @@ func typePrint(input string, delay int) {
 	}
 }
 
+// Delete a character
 func typeDelete() {
 	fmt.Print("\b \b")
 	time.Sleep(50 * time.Millisecond)
 }
 
+// Run the animation in "dance.txt"
 func dance() {
 	file, err := os.Open("./dance.txt")
 	checkErr(err)
@@ -107,6 +109,7 @@ func dance() {
 end:
 }
 
+// Check for an error and panic if there is one
 func checkErr(err error) {
 	if err != nil {
 		panic(err)
