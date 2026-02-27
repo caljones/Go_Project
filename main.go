@@ -1,7 +1,5 @@
+// A program that reads a text file with encoded characters for special functions
 package main
-
-// I am going to write a simple Go program that has fun with Go, printing
-// different things about what I have learned about Go so far.
 
 import (
 	"bufio"
@@ -13,13 +11,22 @@ import (
 	"time"
 )
 
-const cali_url = "http://services.explorecalifornia.org/json/tours.php"
+// Name of the file to be typed
+const input_filename = "./input.txt"
 
+// URI for an API call
+const cali_uri = "http://services.explorecalifornia.org/json/tours.php"
+
+// Millisecond delay between typed characters
+const delay = 100
+
+// Main function
 func main() {
-	inputText := readFile("./input.txt")
-	typePrint(inputText, 120)
+	inputText := readFile(input_filename)
+	typePrint(inputText, delay)
 }
 
+// Reads a file from the name provided, outputs file as a string
 func readFile(fileName string) string {
 	file, err := os.Open(fileName)
 	checkErr(err)
@@ -29,10 +36,16 @@ func readFile(fileName string) string {
 	return string(data)
 }
 
-func typePrint(input string, speed int) {
+// Prints the provided string with the provided millisecond delay between each
+// printed character.
+// Reads special character and respods accordingly:
+//
+//	$: Print an ascii art photo in a txt file called "good_job.txt"
+//	#: Make an HTTP call to the URI constant
+//	@: Sleeps for 0.5 seconds
+func typePrint(input string, delay int) {
 	r := rand.New(rand.NewPCG(0, 1))
 	for _, c := range input {
-
 		switch {
 		// Print Good Job
 		case string(c) == "$":
@@ -40,7 +53,7 @@ func typePrint(input string, speed int) {
 		// Print Cali HTTP call
 		case string(c) == "#":
 			client := http.Client{}
-			req, err := http.NewRequest("GET", cali_url, nil)
+			req, err := http.NewRequest("GET", cali_uri, nil)
 			checkErr(err)
 			req.Header.Set("User-Agent", "")
 			resp, err := client.Do(req)
@@ -55,14 +68,13 @@ func typePrint(input string, speed int) {
 		// Backspace
 		case string(c) == "^":
 			typeDelete()
-			time.Sleep(time.Duration(r.IntN(speed)) * time.Millisecond)
 		// Dance animation
 		case string(c) == "&":
 			dance()
 		default:
 			fmt.Print(string(c))
+			time.Sleep(time.Duration(r.IntN(delay)) * time.Millisecond)
 		}
-		time.Sleep(time.Duration(r.IntN(speed)) * time.Millisecond)
 	}
 }
 
