@@ -10,6 +10,7 @@ declare global {
     };
     __goOutput: (text: string) => void;
     __goDone: () => void;
+    __toursUrl: string;
   }
 }
 
@@ -47,6 +48,7 @@ export default function Home() {
       window.addEventListener("resize", () => fitAddon.fit());
 
       // Expose globals for the WASM binary
+      window.__toursUrl = `${basePath}/go/tours.json`;
       window.__goOutput = (text: string) => {
         // Convert bare \n to \r\n for proper xterm line breaks
         terminal.write(text.replace(/\n/g, "\r\n"));
