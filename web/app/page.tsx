@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Script from "next/script";
 
 declare global {
   interface Window {
@@ -18,61 +17,64 @@ export default function Home() {
   const terminalRef = useRef<HTMLDivElement>(null);
   const [isDone, setIsDone] = useState(false);
 
-  const initWasm = async () => {
-    if (!terminalRef.current) return;
+  useEffect(() => {
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
-    const { Terminal } = await import("@xterm/xterm");
-    const { FitAddon } = await import("@xterm/addon-fit");
-    await import("@xterm/xterm/css/xterm.css");
+    const initWasm = async () => {
+      if (!terminalRef.current) return;
 
-    const terminal = new Terminal({
-      cursorBlink: true,
-      theme: {
-        background: "#000000",
-        foreground: "#39ff14",
-        cursor: "#39ff14",
-      },
-      fontFamily: "'Courier New', Courier, monospace",
-      fontSize: 14,
-      convertEol: false,
-    });
+      const { Terminal } = await import("@xterm/xterm");
+      const { FitAddon } = await import("@xterm/addon-fit");
+      await import("@xterm/xterm/css/xterm.css");
 
-    const fitAddon = new FitAddon();
-    terminal.loadAddon(fitAddon);
-    terminal.open(terminalRef.current);
-    fitAddon.fit();
+      const terminal = new Terminal({
+        cursorBlink: true,
+        theme: {
+          background: "#000000",
+          foreground: "#39ff14",
+          cursor: "#39ff14",
+        },
+        fontFamily: "'Courier New', Courier, monospace",
+        fontSize: 14,
+        convertEol: false,
+      });
 
-    window.addEventListener("resize", () => fitAddon.fit());
+      const fitAddon = new FitAddon();
+      terminal.loadAddon(fitAddon);
+      terminal.open(terminalRef.current);
+      fitAddon.fit();
 
-    // Expose globals for the WASM binary
-    window.__goOutput = (text: string) => {
-      // Convert bare \n to \r\n for proper xterm line breaks
-      terminal.write(text.replace(/\n/g, "\r\n"));
+      window.addEventListener("resize", () => fitAddon.fit());
+
+      // Expose globals for the WASM binary
+      window.__goOutput = (text: string) => {
+        // Convert bare \n to \r\n for proper xterm line breaks
+        terminal.write(text.replace(/\n/g, "\r\n"));
+      };
+
+      window.__goDone = () => {
+        setIsDone(true);
+      };
+
+      // Load and run the WASM — go.run() never resolves (select{} in main_wasm.go)
+      const go = new window.Go();
+      const result = await WebAssembly.instantiateStreaming(
+        fetch(`${basePath}/go/main.wasm`),
+        go.importObject
+      );
+      go.run(result.instance);
     };
 
-    window.__goDone = () => {
-      setIsDone(true);
-    };
+    const script = document.createElement("script");
+    script.src = `${basePath}/wasm_exec.js`;
+    script.onload = initWasm;
+    document.body.appendChild(script);
 
-    // Load and run the WASM — go.run() never resolves (select{} in main_wasm.go)
-    const go = new window.Go();
-    const result = await WebAssembly.instantiateStreaming(
-      fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/go/main.wasm`),
-      go.importObject
-    );
-    go.run(result.instance);
-  };
-
-  // Suppress SSR — xterm and WebAssembly require a browser environment
-  useEffect(() => {}, []);
+    return () => { document.body.removeChild(script); };
+  }, []);
 
   return (
     <>
-      <Script
-        src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/wasm_exec.js`}
-        strategy="afterInteractive"
-        onLoad={initWasm}
-      />
       <div id="terminal-container" ref={terminalRef} />
       <div id="links" style={{ display: isDone ? "flex" : "none" }}>
         <a href="mailto:cnjones7@ncsu.edu">cnjones7@ncsu.edu</a>
