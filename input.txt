@@ -1,6 +1,8 @@
-Hello Jacob!@
-This is a small program I made to show off what I've learned about GoLang so far.@
-I'm stubborn about learning a new language and so I used no AI to make it.@
+Hi Josh!@
+I heard from my dad that you're interested in seeing my "stuff!"@
+Not sure what to show off, so here's something recent:@@
+
+In my free time, I've been learning GoLang, and wrote this script to demonstrate what I've learned so far!@
 
 $@
 
@@ -19,23 +21,20 @@ syntax...@@
 
 if( err ==@^^^^^^^^@ err == null {@@^^^^^^@nil {@
 
-I know how to parse JSON using GoLang, and make http requests!@
+I learned how to parse JSON using GoLang, and make http requests!@
 If I wanted to get an absurdly long list of nature tours available in California,@
-I can make an API call!@@
+I can make an API call!@
 
 #@@@
 
 I've come to really like Go!@
-The simplicity of loops, conditional logic, errors, and variables
-makes writing code so much faster.@
+The simplicity of loops, conditional logic, errors, and variables makes writing code so much fun.@
 
 &@
 
-If you care to take a peak at main.go and input.txt, this program just runs a few
-functions I wrote to print out text as if I were typing it, run that animation, and 
-read from files.@@
+Obviously, AI can do all this faster.@
+But as far as I know, it can't have fun doing it...yet...@
 
-I studied GoLang online whenever I had a break in my classes at State, 
-and now I'm Go certified! (on Linkedin)@
+Thanks for watching, let me know what kind of "stuff" would be helpful, and I'll send it over!@
 
-Hope you enjoyed this as much as I enjoyed writing it!@
+You have my email, I can't wait to hear your idea.@
