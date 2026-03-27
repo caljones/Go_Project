@@ -23,7 +23,7 @@ if( err ==@^^^^^^^^@ err == null {@@^^^^^^@nil {@
 
 I learned how to parse JSON using GoLang, and make http requests!@
 If I wanted to get an absurdly long list of nature tours available in California,@
-I can make an API call!@
+I can make an API call!@@
 
 #@@@
 
@@ -35,6 +35,8 @@ The simplicity of loops, conditional logic, errors, and variables makes writing 
 Obviously, AI can do all this faster.@
 But as far as I know, it can't have fun doing it...yet...@
 
-Thanks for watching, let me know what kind of "stuff" would be helpful, and I'll send it over!@
+And while I solo developed the program in GoLang, Claude used Next JS to put it on the web.@
+
+Thanks for watching! And let me know what kind of other "stuff" would be helpful, and I'll send it over!@
 
 You have my email, I can't wait to hear your idea.@
