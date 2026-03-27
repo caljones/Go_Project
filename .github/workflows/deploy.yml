@@ -27,7 +27,10 @@ jobs:
           go-version: '1.22'
 
       - name: Fetch tours data
-        run: curl -s "http://services.explorecalifornia.org/json/tours.php" -o web/public/go/tours.json
+        run: |
+          curl -fL "https://services.explorecalifornia.org/json/tours.php" -o web/public/go/tours.json \
+            || curl -fL "http://services.explorecalifornia.org/json/tours.php" -o web/public/go/tours.json
+          echo "tours.json size: $(wc -c < web/public/go/tours.json) bytes"
 
       - name: Compile WASM
         run: GOOS=js GOARCH=wasm go build -o web/public/go/main.wasm .
