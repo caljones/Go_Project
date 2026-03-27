@@ -8,6 +8,7 @@ func init() {
 	printFn = func(s string) {
 		js.Global().Call("__goOutput", s)
 	}
+	cali_uri = js.Global().Get("__toursUrl").String()
 }
 
 func main() {
