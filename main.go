@@ -2,56 +2,50 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
+	_ "embed"
 	"io"
 	"math/rand/v2"
 	"net/http"
-	"os"
+	"strings"
 	"time"
 )
 
-// Name of the file to be typed
-const input_filename = "./input.txt"
+//go:embed input.txt
+var inputTxt string
 
-// URI for an API call
-const cali_uri = "http://services.explorecalifornia.org/json/tours.php"
+//go:embed good_job.txt
+var goodJobTxt string
+
+//go:embed dance.txt
+var danceTxt string
+
+// URI for an API call (overridden in main_wasm.go to proxy through Next.js)
+var cali_uri = "https://services.explorecalifornia.org/json/tours.php"
 
 // Millisecond delay between typed characters
 const delay = 100
 
-// Main function
-func main() {
-	inputText := readFile(input_filename)
-	typePrint(inputText, delay)
-}
-
-// Reads a file from the name provided, outputs file as a string
-func readFile(fileName string) string {
-	file, err := os.Open(fileName)
-	checkErr(err)
-	defer file.Close()
-	data, err := os.ReadFile(fileName)
-	checkErr(err)
-	return string(data)
-}
+// printFn is set by main_cli.go or main_wasm.go at init time.
+var printFn func(string)
 
 // Prints the provided string with the provided millisecond delay between each
 // printed character.
-// Reads special character and respods accordingly:
+// Reads special characters and responds accordingly:
 //
-//	$: Print an ascii art photo in a txt file called "good_job.txt"
+//	$: Print an ascii art photo from good_job.txt
 //	#: Make an HTTP call to the URI constant
 //	@: Sleeps for 0.5 seconds
+//	^: Backspace
+//	&: Dance animation from dance.txt
 func typePrint(input string, delay int) {
 	r := rand.New(rand.NewPCG(0, 1))
 	for _, c := range input {
-		switch {
+		switch string(c) {
 		// Print Good Job
-		case string(c) == "$":
-			typePrint(readFile("./good_job.txt"), 2)
+		case "$":
+			typePrint(goodJobTxt, 2)
 		// Print Cali HTTP call
-		case string(c) == "#":
+		case "#":
 			client := http.Client{}
 			req, err := http.NewRequest("GET", cali_uri, nil)
 			checkErr(err)
@@ -60,19 +54,19 @@ func typePrint(input string, delay int) {
 			checkErr(err)
 			bytes, err := io.ReadAll(resp.Body)
 			checkErr(err)
-			fmt.Println(string(bytes))
+			printFn(string(bytes) + "\n")
 			resp.Body.Close()
 		// Delay half a second
-		case string(c) == "@":
+		case "@":
 			time.Sleep(time.Second / 2)
 		// Backspace
-		case string(c) == "^":
+		case "^":
 			typeDelete()
 		// Dance animation
-		case string(c) == "&":
+		case "&":
 			dance()
 		default:
-			fmt.Print(string(c))
+			printFn(string(c))
 			time.Sleep(time.Duration(r.IntN(delay)) * time.Millisecond)
 		}
 	}
@@ -80,33 +74,31 @@ func typePrint(input string, delay int) {
 
 // Delete a character
 func typeDelete() {
-	fmt.Print("\b \b")
+	printFn("\b \b")
 	time.Sleep(50 * time.Millisecond)
 }
 
-// Run the animation in "dance.txt"
+// Run the animation in dance.txt
 func dance() {
-	file, err := os.Open("./dance.txt")
-	checkErr(err)
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	counter := 0
-	for true {
+	lines := strings.Split(strings.ReplaceAll(danceTxt, "\r\n", "\n"), "\n")
+	i := 0
+	for {
 		for range 5 {
-			scanner.Scan()
-			s := scanner.Text()
-			fmt.Println(s)
-			if string(s[len(s)-1]) == "#" {
-				goto end
+			if i >= len(lines) {
+				return
 			}
-			counter++
+			s := lines[i]
+			i++
+			printFn(s + "\n")
+			if len(s) > 0 && string(s[len(s)-1]) == "#" {
+				return
+			}
 		}
 		time.Sleep(150 * time.Millisecond)
 		for range 5 {
-			fmt.Printf("\033[1A\033[K")
+			printFn("\033[1A\033[K")
 		}
 	}
-end:
 }
 
 // Check for an error and panic if there is one

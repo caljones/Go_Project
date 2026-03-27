@@ -1,0 +1,45 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: #000000;
+  overflow: hidden;
+}
+
+#terminal-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+#links {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid #39ff14;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+}
+
+#links a {
+  color: #39ff14;
+  text-decoration: none;
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.05em;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+#links a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px #39ff14;
+}
