@@ -48,7 +48,7 @@ export default function Home() {
       window.addEventListener("resize", () => fitAddon.fit());
 
       // Expose globals for the WASM binary
-      window.__toursUrl = `${basePath}/go/tours.json`;
+      window.__toursUrl = `${window.location.origin}${basePath}/go/tours.json`;
       window.__goOutput = (text: string) => {
         // Convert bare \n to \r\n for proper xterm line breaks
         terminal.write(text.replace(/\n/g, "\r\n"));
