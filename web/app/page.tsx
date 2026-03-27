@@ -69,7 +69,7 @@ export default function Home() {
   return (
     <>
       <Script
-        src="/wasm_exec.js"
+        src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/wasm_exec.js`}
         strategy="afterInteractive"
         onLoad={initWasm}
       />
